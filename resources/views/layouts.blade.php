@@ -52,6 +52,8 @@
                         <img src="{{ asset('assets/img/ANDANA (1).png') }}" alt="navbar brand" class="navbar-brand"
                             height="60" />
                     </a>
+
+                    <label for="">ANDANA</label>
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">
                             <i class="gg-menu-right"></i>
@@ -81,7 +83,7 @@
                             </span>
                             <h4 class="text-section">Components</h4>
                         </li>
-                    
+
                         @if (Auth::user()->role === 'admin')
                             <li class="nav-item">
                                 <a href="data-nasabah">
@@ -92,11 +94,12 @@
                         @endif
 
                         <li class="nav-item">
-                            <a href="/peminjaman">
+                            <a href="form-peminjaman">
                                 <i class="fas fa-th-list"></i>
                                 <p>Peminjaman</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="/pembayaran">
                                 <i class="fas fa-pen-square"></i>

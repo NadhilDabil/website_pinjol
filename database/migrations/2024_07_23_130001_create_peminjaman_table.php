@@ -18,13 +18,13 @@ return new class extends Migration
             $table->date('jangka_waktu');
             $table->double('suku_bunga')->default(15);
             $table->date('tanggal_pencairan')->nullable();
+            $table->text('alasan_peminjaman', 255);
             // $table->enum('status_peminjaman', ['Lunas', 'Belum Lunas']);
             // $table->string('admin_id')->references('id')->on('admin')->onDelete('set null');
             $table->timestamps();
 
             #FOREIGH KEY
             $table->foreign('nasabah_id')->references('id')->on('nasabah');
-
         });
     }
 

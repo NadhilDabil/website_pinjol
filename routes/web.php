@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NasabahController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ValidateUserRoleMiddleware;
@@ -33,9 +34,14 @@ Route::get('form-nasabah/{id}', [NasabahController::class, 'create'])->name('for
 
 Route::post('form-nasabah/{id}/store', [NasabahController::class, 'store'])->name('form-nasabah.store');
 
+
+Route::get('form-peminjaman/{id}',[PeminjamanController::class, 'create'])->name('form-peminjaman');
+
+Route::get('validate-peminjaman',[PeminjamanController::class, 'validate_peminjaman'])->name('validate-pinjaman');
+
 // ======MIDDLEWARE UNNTUK NASABAH======
 Route::middleware(['role'])->group(function () {
-    
+
     Route::get('dashboard', [HomeController::class,'index']);
 
     Route::get('data-nasabah', [NasabahController::class, 'index'])->name('data-nasabah');
