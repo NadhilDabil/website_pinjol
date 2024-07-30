@@ -1,3 +1,10 @@
+@auth
+    @if (Auth::user()->role === 'nasabah' && ! App\Models\Nasabah::where('user_id', Auth::id())->exists())
+        <script>
+            window.location.href = "{{ route('form-nasabah') }}";
+        </script>
+    @endif
+@endauth
 @extends('layouts')
 
 @section('content')
