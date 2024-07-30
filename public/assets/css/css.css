@@ -1,0 +1,23 @@
+.deskripsi{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .images {
+    width: 30%; /* adjust the width to your liking */
+    margin: 10px;
+  }
+
+  .paragraph {
+    width: 70%; /* adjust the width to your liking */
+    margin: 10px;
+  }
+
+  .card-round2 {
+    margin-bottom: 20px;
+  }
+
+  .testing1{
+    color: pink;
+    background-color: black;
+  }
