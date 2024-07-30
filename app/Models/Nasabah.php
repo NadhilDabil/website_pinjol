@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Nasabah extends Model
 {
@@ -16,7 +17,8 @@ class Nasabah extends Model
         'nama_lengkap',
         'nomor_telepon',
         'nomor_telepon_jaminan',
-        'tempat_tgl_lahir',
+        'tempat_lahir',
+        'tgl_lahir',
         'usia',
         'jenis_kelamin',
         'pekerjaan',
@@ -25,5 +27,11 @@ class Nasabah extends Model
         'alamat',
         'foto_ktp',
         'nik',
+        'verified'
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo('users');
+    }
 }
