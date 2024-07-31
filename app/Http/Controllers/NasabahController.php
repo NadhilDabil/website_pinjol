@@ -44,12 +44,14 @@ class NasabahController extends Controller
             $file = $request->file('foto_ktp')->storeAs('uploads', $fileName, 'public');
         }
 
+
         $nasabah = new Nasabah([
-            $request->all(),
+            ...$request->all(),
             'tanggal_pendaftaran' => Carbon::now(),
-            'usia' => intval(Carbon::now()->diffInYears($request->validated('tgl_lahir'))),
+            'usia' => intval(Carbon::now()->diffInYears($request->validated('tgl_lahir')))*-1,
             'foto_ktp' => $file,
         ]);
+
 
         $user = Auth::user();
         $user->nasabah()->save($nasabah);

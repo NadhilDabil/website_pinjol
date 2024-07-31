@@ -9,9 +9,17 @@ class Peminjaman extends Model
 {
     protected $table = 'peminjaman';
 
-    protected $fillabel = [
+    protected $fillable = [
         'jumlah_pinjaman',
         'jangka_waktu',
         'alasan_peminjaman',
+        'status'
     ];
+
+    public function nasabah()
+    {
+        return $this->belongsTo(Nasabah::class, 'nasabah_id');
+    }
+
+
 }

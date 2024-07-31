@@ -31,16 +31,22 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="tempat_tgl_lahir">Tempat, Tanggal Lahir</label>
-                                        <input type="tel" class="form-control" id="tempat_tgl_lahir"
-                                            name="tempat_tgl_lahir" placeholder="Kota/Tanggal/Bulan/Tahun" />
+                                        <label for="tempat_lahir">Tempat lahiran</label>
+                                        <input type="text" class="form-control" id="tempat_lahir"
+                                            name="tempat_lahir" placeholder="Masukkan Tempat Lahir" />
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="tgl_lahir">Tanggal Lahir</label>
+                                        <input type="date" class="form-control" id="tgl_lahir"
+                                            name="tgl_lahir" placeholder="Tanggal Lahir" />
+                                    </div>
+
+                                    {{-- <div class="form-group">
                                         <label for="usia">Usia</label>
                                         <input type="text" class="form-control" id="usia" name="usia"
                                             placeholder="Masukkan Usia Anda" />
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <label>Gender</label><br />

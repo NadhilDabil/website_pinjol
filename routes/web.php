@@ -12,7 +12,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/csrf', function() {
+Route::get('/csrf', function () {
     return csrf_token();
 });
 
@@ -25,12 +25,22 @@ Route::get('/hash-password', function (Request $request) {
 
 // ======MIDDLEWARE======
 Route::middleware(['role'])->group(function () {
-    Route::get('dashboard', [HomeController::class,'index'])->name('dashboard');
+    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('data-nasabah', [NasabahController::class, 'index'])->name('data-nasabah');
 
     # Registration Nasabah
     Route::get('form-nasabah', [NasabahController::class, 'create'])->name('form-nasabah');
     Route::post('form-nasabah/store', [NasabahController::class, 'store'])->name('form-nasabah.store');
+
+    # Peminjaman
+    Route::get('form-peminjaman', [PeminjamanController::class, 'create'])->name('form-peminjaman');
+    Route::post('form-peminjaman/store', [PeminjamanController::class, 'store'])->name('form-peminjaman.store');
+
+    # Daftar Peminjaman
+    Route::get('validate-peminjaman',[PeminjamanController::class, 'validatePeminjaman'])->name('validate-peminjaman');
+    Route::get('validate-peminjaman/{id}/edit',[PeminjamanController::class, 'edit'])->name('validate-peminjaman.edit');
+    Route::get('validate-peminjaman/{id}',[PeminjamanController::class, 'update'])->name('validate-peminjaman.update');
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -39,27 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
-// Route::get('dashboard', [HomeController::class,'index'])->middleware('auth');
-
-// Route::get('form-data_diri', [HomeController::class, 'form'])->middleware('auth');
-
-
-Route::get('form-nasabah/{id}', [NasabahController::class, 'create'])->name('form-nasabah');
-
-Route::post('form-nasabah/{id}/store', [NasabahController::class, 'store'])->name('form-nasabah.store');
-
-
-Route::get('form-peminjaman/{id}',[PeminjamanController::class, 'create'])->name('form-peminjaman');
-
-Route::get('validate-peminjaman',[PeminjamanController::class, 'validate_peminjaman'])->name('validate-pinjaman');
-
-
-
-
-
-
+require __DIR__ . '/auth.php';
 
 
 

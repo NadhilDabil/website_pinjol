@@ -29,6 +29,8 @@
                 sessionStorage.fonts = true;
             },
         });
+
+
     </script>
 
     <!-- CSS Files -->
@@ -39,6 +41,8 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+
+    @yield('title')
 </head>
 
 <body>
@@ -94,7 +98,7 @@
                         @endif
 
                         <li class="nav-item">
-                            <a href="form-peminjaman">
+                            <a href="{{ Auth::user()->role === 'nasabah' ? 'form-peminjaman' : 'validate-peminjaman' }}">
                                 <i class="fas fa-th-list"></i>
                                 <p>Peminjaman</p>
                             </a>

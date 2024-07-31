@@ -20,6 +20,7 @@ class Nasabah extends Model
         'tempat_lahir',
         'tgl_lahir',
         'usia',
+        'tanggal_pendaftaran',
         'jenis_kelamin',
         'pekerjaan',
         'nama_ibu',
@@ -29,6 +30,10 @@ class Nasabah extends Model
         'nik',
         'verified'
     ];
+
+    public function peminjaman(){
+        return $this->hasMany(Peminjaman::class, 'nasabah_id');
+    }
 
     public function user(): BelongsTo
     {

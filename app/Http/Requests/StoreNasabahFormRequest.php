@@ -28,7 +28,7 @@ class StoreNasabahFormRequest extends FormRequest
             'nomor_telepon' => ['required', 'max:255', 'unique:nasabah'],
             'nomor_telepon_jaminan' => ['required', 'max:255'],
             'tempat_lahir' => ['required', 'max:255'],
-            'tgl_lahir' => ['required', 'date'],
+            'tgl_lahir' => ['required', 'date', 'before:today'],
             'jenis_kelamin' => ['required', 'in:Pria,Wanita'],
             'pekerjaan' => ['required', 'max:30'],
             'nama_ibu' => ['required', 'max:255'],
