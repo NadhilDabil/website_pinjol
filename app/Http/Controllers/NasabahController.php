@@ -16,8 +16,8 @@ class NasabahController extends Controller
      */
     public function index()
     {
-        $nasabah = Nasabah::all();
-        return view('admin/data-nasabah', compact('nasabah'));
+        $nasabahs = Nasabah::all();
+        return view('admin/data-nasabah', compact('nasabahs'));
     }
 
     /**
@@ -64,7 +64,7 @@ class NasabahController extends Controller
      */
     public function show(Nasabah $nasabah)
     {
-        //
+        return view('nasabah.form-data_diri', compact('nasabah'));
     }
 
     /**
