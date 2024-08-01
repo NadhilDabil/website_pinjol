@@ -71,8 +71,8 @@ class PeminjamanController extends Controller
      */
     public function edit(string $id)
     {
-        $peminjaman = Peminjaman::findOrFail($id);
-        return view('admin/validate-peminjaman-detail', compact('peminjaman'));
+        $data = Peminjaman::findOrFail($id);
+        return compact('data');
     }
 
     /**
@@ -80,7 +80,7 @@ class PeminjamanController extends Controller
      */
     public function update(Request $request, $peminjaman)
     {
-
+        
         $request->validate([
             'jumlah_pinjaman' => 'required|max:20',
             'jangka_waktu' => ['required', 'date'],
