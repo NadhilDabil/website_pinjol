@@ -33,18 +33,18 @@
                         </tr>
                       </thead>
 
-                      @foreach ($nasabah as $index => $nasabahs)
+                      @foreach ($nasabahs as $index => $nasabah)
                       <tbody>
                         <tr>
                           <td class="text">{{$index + 1}}</td>
-                          <td class="text">{{$nasabahs->nama_lengkap}}</td>
-                          <td class="text">{{$nasabahs->nik}}</td>
-                          <td class="text">{{$nasabahs->alamat}}</td>
-                          <td class="text">{{$nasabahs->nomor_telepon}}</td>
-                          <td class="text">{{$nasabahs->pekerjaan}}</td>
-                          <td class="text">{{$nasabahs->jenis_kelamin}}</td>
+                          <td class="text">{{$nasabah->nama_lengkap}}</td>
+                          <td class="text">{{$nasabah->nik}}</td>
+                          <td class="text">{{$nasabah->alamat}}</td>
+                          <td class="text">{{$nasabah->nomor_telepon}}</td>
+                          <td class="text">{{$nasabah->pekerjaan}}</td>
+                          <td class="text">{{$nasabah->jenis_kelamin}}</td>
                           <td class="text">Ambil dari Field Peminjaman</td>
-                          <td class="text"><button class="btn btn-info">Info</button></td>
+                          <td class="text"><a class="btn btn-info" href="{{route('form-nasabah.detail', $nasabah->id)}}" >Info</a></td>
                         </tr>
                       </tbody>
                       @endforeach
