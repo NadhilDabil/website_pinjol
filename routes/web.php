@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -27,10 +28,13 @@ Route::get('/hash-password', function (Request $request) {
 Route::middleware(['role'])->group(function () {
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('data-nasabah', [NasabahController::class, 'index'])->name('data-nasabah');
+    Route::get('data-nasabah/{nasabah}', [NasabahController::class, 'show'])->name('form-nasabah.detail');
 
     # Registration Nasabah
     Route::get('form-nasabah', [NasabahController::class, 'create'])->name('form-nasabah');
     Route::post('form-nasabah/store', [NasabahController::class, 'store'])->name('form-nasabah.store');
+
+    Route::resource('test', PeminjamanController::class);
 
     # Peminjaman
     Route::get('form-peminjaman', [PeminjamanController::class, 'create'])->name('form-peminjaman');

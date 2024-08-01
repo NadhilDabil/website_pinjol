@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Nasabah extends Model
 {
@@ -31,7 +32,13 @@ class Nasabah extends Model
         'verified'
     ];
 
-    public function peminjaman(){
+    public function getFotoKtpUrlAttribute()
+    {
+        return Storage::url($this->foto_ktp);
+    }
+
+    public function peminjaman()
+    {
         return $this->hasMany(Peminjaman::class, 'nasabah_id');
     }
 
