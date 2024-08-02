@@ -7,6 +7,7 @@ use App\Models\Nasabah;
 use App\Models\Peminjaman;
 use App\Models\User;
 use App\Rules\TodayOrFutureDate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -78,27 +79,24 @@ class PeminjamanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $peminjaman)
+    public function update(Request $request, $id)
     {
-        
         $request->validate([
             'jumlah_pinjaman' => 'required|max:20',
             'jangka_waktu' => ['required', 'date'],
             'alasan_peminjaman' => 'required|max:255',
         ]);
 
-        $peminjaman = Peminjaman::where('nasabah_id', $request->nasabah_id)->update([
-            'jumlah_pinjaman' => $request->jumlah_pinjaman,
-            'jangka_waktu' => $request->jangka_waktu,
-            'alasan_peminjaman' => $request->alasan_peminjaman,
-            'status' => $request->status,
-        ]);
+        $peminjaman = Peminjaman::findOrFail($id);
 
         $peminjaman->jumlah_pinjaman = $request->jumlah_pinjaman;
         $peminjaman->jangka_waktu = $request->jangka_waktu;
         $peminjaman->alasan_peminjaman = $request->alasan_peminjaman;
-        $peminjaman->status = $request->status;
+        $peminjaman->tanggal_pencairan = Carbon::now();
+        $peminjaman->status = 'approve';
 
+        $peminjaman->save();
+        return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil diupdate');
     }
 
     /**
