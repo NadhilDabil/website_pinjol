@@ -43,7 +43,7 @@ Route::middleware(['role'])->group(function () {
     # Daftar Peminjaman
     Route::get('validate-peminjaman',[PeminjamanController::class, 'validatePeminjaman'])->name('validate-peminjaman');
     Route::get('validate-peminjaman/{id}/edit',[PeminjamanController::class, 'edit'])->name('validate-peminjaman.edit');
-    Route::get('validate-peminjaman/{id}',[PeminjamanController::class, 'update'])->name('validate-peminjaman.update');
+    Route::put('validate-peminjaman/{id}',[PeminjamanController::class, 'update'])->name('validate-peminjaman.update');
 
 });
 
