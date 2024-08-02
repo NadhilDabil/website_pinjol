@@ -10,7 +10,6 @@
                 </div>
                 <form action="{{ route('form-peminjaman.store') }}" method="post">
                     @csrf
-
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 col-lg-4">

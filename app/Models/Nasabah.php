@@ -26,6 +26,7 @@ class Nasabah extends Model
         'pekerjaan',
         'nama_ibu',
         'no_rekening',
+        'jenis_bank',
         'alamat',
         'foto_ktp',
         'nik',

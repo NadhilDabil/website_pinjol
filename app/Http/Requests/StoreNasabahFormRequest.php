@@ -23,16 +23,17 @@ class StoreNasabahFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nik' => ['required', 'max:20', 'unique:nasabah'],
+            'nik' => ['required', 'digits:16', 'unique:nasabah'],
             'nama_lengkap' => ['required', 'max:255'],
-            'nomor_telepon' => ['required', 'max:255', 'unique:nasabah'],
-            'nomor_telepon_jaminan' => ['required', 'max:255'],
+            'nomor_telepon' => ['required', 'regex:/^\+?(\d[\d -]{7,}\d)$/', 'unique:nasabah'],
+            'nomor_telepon_jaminan' => ['required', 'regex:/^\+?(\d[\d -]{7,}\d)$/', 'unique:nasabah'],
             'tempat_lahir' => ['required', 'max:255'],
             'tgl_lahir' => ['required', 'date', 'before:today'],
             'jenis_kelamin' => ['required', 'in:Pria,Wanita'],
             'pekerjaan' => ['required', 'max:30'],
             'nama_ibu' => ['required', 'max:255'],
             'no_rekening' => ['required', 'max:15'],
+            'jenis_bank' => ['required', 'max:15'],
             'alamat' => ['required', 'max:255'],
             'foto_ktp' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
