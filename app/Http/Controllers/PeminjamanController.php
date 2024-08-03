@@ -25,8 +25,11 @@ class PeminjamanController extends Controller
 
     public function validatePeminjaman()
     {
-        $peminjamans = Peminjaman::with('nasabah')->get();
-        return view('admin/validate-peminjaman', compact('peminjamans'));
+        $peminjamansApprove = Peminjaman::with('nasabah')->where('status','approve')->get();
+        $peminjamansPending = Peminjaman::with('nasabah')->where('status','pending')->get();
+
+
+        return view('admin/validate-peminjaman', compact('peminjamansApprove', 'peminjamansPending'));
     }
 
     /**
@@ -56,7 +59,7 @@ class PeminjamanController extends Controller
 
         $nasabah->peminjaman()->save($peminjaman);
 
-        return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil disimpan.');
+        return redirect()->route('dashboard')->alert('success', 'Peminjaman berhasil disimpan.');
     }
 
     /**

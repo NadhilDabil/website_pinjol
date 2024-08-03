@@ -21,3 +21,10 @@
     color: pink;
     background-color: black;
   }
+
+  .logo-judul{
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }

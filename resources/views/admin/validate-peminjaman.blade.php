@@ -15,7 +15,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Basic</h4>
+                            <h4 class="card-title">Data Peminjaman Pending</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -30,14 +30,14 @@
                                             <th scope="col" class="text">Action</th>
                                         </tr>
                                     </thead>
-                                    @foreach ($peminjamans as $index => $peminjaman)
+                                    @foreach ($peminjamansPending as $index => $peminjaman)
                                         <tbody>
                                             <tr>
                                                 <td class="text">{{ $index + 1 }}</td>
                                                 <td class="text">{{ $peminjaman->nasabah->nama_lengkap }}</td>
                                                 <td class="text">{{ $peminjaman->nasabah->nik }}</td>
                                                 <td class="text">{{ $peminjaman->jumlah_pinjaman }}</td>
-                                                <td class="text">{{ $peminjaman->status }}</td>
+                                                <td class="text"><span class="badge text-bg-warning fs-6">{{ $peminjaman->status }}</span></td>
                                                 <td class="text"><button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday{{$peminjaman->id}}"><i class="icofont-edit text-success"></i>Verifikasi</button></td>
                                                 {{-- <td class="text"><a class="btn btn-info" href="{{ route('validate-peminjaman.edit', $peminjaman->id) }}">Info</a></td> --}}
 
@@ -94,6 +94,106 @@
 
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="btn btn-primary">Setujui</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                                    aria-label="Close">Close</button>
+                                                                  </div>
+                                                            </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Data Peminjaman Approve</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="basic-datatables" class="display table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col" class="text">Nama Nasabah</th>
+                                            <th scope="col" class="text">NIK</th>
+                                            <th scope="col" class="text">Peminjaman</th>
+                                            <th scope="col" class="text">Status</th>
+                                            <th scope="col" class="text">Action</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($peminjamansApprove as $index => $peminjaman)
+                                        <tbody>
+                                            <tr>
+                                                <td class="text">{{ $index + 1 }}</td>
+                                                <td class="text">{{ $peminjaman->nasabah->nama_lengkap }}</td>
+                                                <td class="text">{{ $peminjaman->nasabah->nik }}</td>
+                                                <td class="text">{{ $peminjaman->jumlah_pinjaman }}</td>
+                                                <td class="text"><span class="badge text-bg-success fs-6">{{ $peminjaman->status }}</span></td>
+                                                <td class="text"><button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday{{$peminjaman->id}}"><i class="icofont-edit text-success"></i>Informasi</button></td>
+                                                {{-- <td class="text"><a class="btn btn-info" href="{{ route('validate-peminjaman.edit', $peminjaman->id) }}">Info</a></td> --}}
+
+                                            </tr>
+                                        </tbody>
+
+
+                                        <div class="modal fade" id="editholiday{{$peminjaman->id}}" tabindex="-1" aria-hidden="true">
+                                            <div
+                                                class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title  fw-bold" id="editholidayLabel">Informasi
+                                                            <span class="badge text-bg-success">Status {{$peminjaman->status}}</span>
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form
+                                                                action="{{ route('validate-peminjaman.update', $peminjaman->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('PUT')
+
+
+                                                                <div class="form-group">
+                                                                    <label for="nama">Nama Nasabah</label>
+                                                                    <input type="text" id="nama"
+                                                                        class="form-control" name="nama"
+                                                                        placeholder="Masukkan Jumlah Pinjaman" value="{{$peminjaman->nasabah->nama_lengkap}}"  readonly />
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="jumlah_pinjaman">Jumlah Pinjaman</label>
+                                                                    <input type="text" id="jumlah_pinjaman"
+                                                                        class="form-control" name="jumlah_pinjaman"
+                                                                        placeholder="Masukkan Jumlah Pinjaman" value="{{$peminjaman->jumlah_pinjaman}}" readonly />
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="alasan_peminjaman">Alasan Peminjaman</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="alasan_peminjaman"
+                                                                        placeholder="Alasan Peminjaman" value="{{$peminjaman->alasan_peminjaman}}" readonly />
+
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="jangka_waktu">Jangka Waktu</label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="jangka_waktu"  value="{{$peminjaman->jangka_waktu}}" readonly />
+                                                                </div>
+
+                                                                <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                                                     aria-label="Close">Close</button>
                                                                   </div>
