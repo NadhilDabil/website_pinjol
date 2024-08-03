@@ -64,6 +64,9 @@ class NasabahController extends Controller
      */
     public function show(Nasabah $nasabah)
     {
+        if (Auth::check() && Auth::user()->role === 'nasabah') {
+            $nasabah->where('user_id', Auth::id())->get();
+        }
         return view('nasabah.form-data_diri', compact('nasabah'));
     }
 

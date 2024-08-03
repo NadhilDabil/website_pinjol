@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NasabahController;
+use App\Http\Controllers\pembayaranController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Peminjaman;
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/welcome2', function () {
+    return view('welcome2');
 });
 
 Route::get('/csrf', function () {
@@ -43,6 +48,8 @@ Route::middleware(['role'])->group(function () {
     Route::get('validate-peminjaman/{id}/edit',[PeminjamanController::class, 'edit'])->name('validate-peminjaman.edit');
     Route::put('validate-peminjaman/{id}',[PeminjamanController::class, 'update'])->name('validate-peminjaman.update');
 
+    // Pembayaran nasabah
+    Route::get('nasabah.data-pembayaran',[pembayaranController::class, 'index'])->name('nasabah.data-pembayaran');
 });
 
 Route::middleware('auth')->group(function () {
