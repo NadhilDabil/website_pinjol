@@ -1,86 +1,103 @@
 @auth
-    @if (Auth::user()->role === 'nasabah' && !App\Models\Nasabah::where('user_id', Auth::id())->exists())
+    @if (!App\Models\Nasabah::where('user_id', Auth::id())->exists())
         <script>
             window.location.href = "{{ route('form-nasabah') }}";
         </script>
     @endif
 @endauth
-@extends('layouts')
 
+@extends('layouts')
 @section('content')
     <div class="container">
-        <div class="page-inner">
-            <div class="row">
-                <div class="col-sm-6 col-md-3">
-                    <div class="card card-stats card-round">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-icon">
-                                    <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                        <i class="fas fa-users"></i>
-                                    </div>
+        <div class="row m-2 mt-4">
+            @if ($nasabah->verified)
+                <div class="col-md-4 col-lg-4 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-header">
+                            <div class="card-title">Formulir Peminjaman</div>
+                        </div>
+                        <form action="{{ route('form-peminjaman.store') }}" method="post">
+                            @csrf
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="jumlah_pinjaman">Jumlah Pinjaman</label>
+                                    <input type="text" class="form-control" name="jumlah_pinjaman"
+                                        placeholder="Masukkan Jumlah Pinjaman" />
+                                    @error('jumlah_pinjaman')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="col col-stats ms-3 ms-sm-0">
-                                    <div class="numbers">
-                                        <p class="card-category">Nasabah</p>
-                                        <h4 class="card-title">1,294</h4>
-                                    </div>
+
+                                <div class="form-group">
+                                    <label for="alasan_peminjaman">Alasan Peminjaman</label>
+                                    <input type="text" class="form-control" name="alasan_peminjaman"
+                                        placeholder="Alasan Peminjaman" />
+                                    @error('alasan_peminjaman')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="jangka_waktu">Jangka Waktu</label>
+                                    <input type="date" class="form-control" name="jangka_waktu" />
+                                    @error('jangka_waktu')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
-                        </div>
+                            <div class="card-footer">
+                                <input class="btn btn-primary" type="submit">
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="card card-stats card-round">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-icon">
-                                    <div class="icon-big text-center icon-info bubble-shadow-small">
-                                        <i class="fas fa-user-check"></i>
-                                    </div>
+            @endif
+            <div class="{{ $nasabah->verified ? 'col-md-8 col-lg-8' : 'col-md-12 col-lg-12' }} d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+                        <div class="card-title">Data Peminjam</div>
+                    </div>
+                    <div class="card-body m-2">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <div>
+                                    <h6 class="fw-bold">Nomor Induk Kependudukan (NIK)</h6>
+                                    <p class="fw-light">{{ $nasabah->nik }}</p>
                                 </div>
-                                <div class="col col-stats ms-3 ms-sm-0">
-                                    <div class="numbers">
-                                        <p class="card-category">Nasabah Baru</p>
-                                        <h4 class="card-title">120</h4>
-                                    </div>
+                                <div>
+                                    <h6 class="fw-bold">Nama Lengkap</h6>
+                                    <p class="fw-light">{{ Str::upper($nasabah->nama_lengkap) }}</p>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold">Nomor Telepon</h6>
+                                    <p class="fw-light">+62 {{ $nasabah->nomor_telepon }}</p>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold">Alamat</h6>
+                                    <p class="fw-light">{{ Str::upper($nasabah->alamat) }}</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="card card-stats card-round">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-icon">
-                                    <div class="icon-big text-center icon-success bubble-shadow-small">
-                                        <i class="fas fa-luggage-cart"></i>
-                                    </div>
+
+                            <div class="col-md-6 col-lg-6">
+                                <div>
+                                    <h6 class="fw-bold">Pekerjaan</h6>
+                                    <p class="fw-light">{{ Str::upper($nasabah->pekerjaan) }}</p>
                                 </div>
-                                <div class="col col-stats ms-3 ms-sm-0">
-                                    <div class="numbers">
-                                        <p class="card-category">Tunggakan</p>
-                                        <h4 class="card-title">5.000.000</h4>
-                                    </div>
+                                <div>
+                                    <h6 class="fw-bold">Jenis Kelamin</h6>
+                                    <p class="fw-light">{{ Str::upper($nasabah->jenis_kelamin) }}</p>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="card card-stats card-round">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-icon">
-                                    <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                                        <i class="far fa-check-circle"></i>
-                                    </div>
-                                </div>
-                                <div class="col col-stats ms-3 ms-sm-0">
-                                    <div class="numbers">
-                                        <p class="card-category">Selesai</p>
-                                        <h4 class="card-title">576</h4>
+                                <div>
+                                    <h6 class="fw-bold">Status</h6>
+                                    <div>
+                                        <p class="fw-light">
+                                            <span class="badge text-bg-{{ $nasabah->verified ? 'success' : 'warning' }}">
+                                                {{ $nasabah->verified ? 'Active' : 'Proses verifikasi' }}
+                                            </span>
+                                        </p>
+                                        <p class="mb-0 fw-light" style="font-size: 0.8rem; margin-top: -1rem">
+                                            *Peminjaman dapat dilakukan saat data sudah diverifikasi.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -89,6 +106,4 @@
                 </div>
             </div>
         </div>
-
-    </div>
-@endsection
+    @endsection

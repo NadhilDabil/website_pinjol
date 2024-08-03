@@ -36,8 +36,6 @@ Route::middleware(['role'])->group(function () {
     Route::get('form-nasabah', [NasabahController::class, 'create'])->name('form-nasabah');
     Route::post('form-nasabah/store', [NasabahController::class, 'store'])->name('form-nasabah.store');
 
-    Route::resource('test', PeminjamanController::class);
-
     # Peminjaman
     Route::get('form-peminjaman', [PeminjamanController::class, 'create'])->name('form-peminjaman');
     Route::post('form-peminjaman/store', [PeminjamanController::class, 'store'])->name('form-peminjaman.store');

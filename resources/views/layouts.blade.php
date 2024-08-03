@@ -79,40 +79,40 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Components</h4>
-                        </li>
-
                         @if (Auth::user()->role === 'admin')
+                            <li class="nav-section">
+                                <span class="sidebar-mini-icon">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </span>
+                                <h4 class="text-section">Components</h4>
+                            </li>
+
                             <li class="nav-item">
                                 <a href="data-nasabah">
                                     <i class="fas fa-layer-group"></i>
                                     <p>Data Nasabah</p>
                                 </a>
                             </li>
-                        @endif
-
-                        <li class="nav-item">
-                            <a
-                                href="{{ Auth::user()->role === 'nasabah' ? 'form-peminjaman' : 'validate-peminjaman' }}">
-                                <i class="fas fa-th-list"></i>
-                                <p>Peminjaman</p>
-                            </a>
-                        </li>
-
-                        @if (Auth::user()->role === 'nasabah')
                             <li class="nav-item">
-                                <a href="{{ route('nasabah.data-pembayaran') }}">
+                                <a
+                                    href="{{ Auth::user()->role === 'nasabah' ? 'form-peminjaman' : 'validate-peminjaman' }}">
+                                    <i class="fas fa-th-list"></i>
+                                    <p>Peminjaman</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/pembayaran">
                                     <i class="fas fa-pen-square"></i>
                                     <p>Pembayaran</p>
                                 </a>
                             </li>
-                        @endif
-
-                        @if (Auth::user()->role === 'admin')
+                            <li class="nav-item">
+                                <a href="/data-Pegawai">
+                                    <i class="fas fa-table"></i>
+                                    <p>Data Pegawai</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('nasabah.data-pembayaran') }}">
                                     <i class="fas fa-pen-square"></i>
