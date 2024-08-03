@@ -1,0 +1,63 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #5AB2FF;
+    padding: 15px 0;
+    transition: background-color 0.3s, padding 0.3s;
+    z-index: 1000;
+
+  }
+
+  .navbar.scrolled {
+    background-color: #94d3f5 ;
+    padding: 10px 0;
+  }
+
+  .logo {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+  }
+
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  nav ul li {
+    margin-left: 20px;
+  }
+
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+  }
+
+  nav ul li a:hover {
+    color: #ddd;
+  }
+
+  main {
+    padding-top: 80px; /* Space for the fixed navbar */
+    height: 2000px; /* For demonstration, you can remove this */
+  }

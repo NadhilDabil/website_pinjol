@@ -70,7 +70,7 @@
                                             placeholder="Masukkan Tempat Lahir"
                                             value="{{ $isDetail ? $nasabah->tempat_lahir : '' }}{{ old('tempat_lahir') }}"
                                             {{ $isDetail ? 'readonly' : '' }} />
-                                        @error('nomor_telepon_jaminan')
+                                        @error('tempat_lahir')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>

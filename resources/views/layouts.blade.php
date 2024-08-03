@@ -29,8 +29,6 @@
                 sessionStorage.fonts = true;
             },
         });
-
-
     </script>
 
     <!-- CSS Files -->
@@ -98,25 +96,40 @@
                         @endif
 
                         <li class="nav-item">
-                            <a href="{{ Auth::user()->role === 'nasabah' ? 'form-peminjaman' : 'validate-peminjaman' }}">
+                            <a
+                                href="{{ Auth::user()->role === 'nasabah' ? 'form-peminjaman' : 'validate-peminjaman' }}">
                                 <i class="fas fa-th-list"></i>
                                 <p>Peminjaman</p>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="/pembayaran">
-                                <i class="fas fa-pen-square"></i>
-                                <p>Pembayaran</p>
-                            </a>
-                        </li>
+                        @if (Auth::user()->role === 'nasabah')
+                            <li class="nav-item">
+                                <a href="{{ route('nasabah.data-pembayaran') }}">
+                                    <i class="fas fa-pen-square"></i>
+                                    <p>Pembayaran</p>
+                                </a>
+                            </li>
+                        @endif
+
                         @if (Auth::user()->role === 'admin')
-                        <li class="nav-item">
-                            <a href="/data-Pegawai">
-                                <i class="fas fa-table"></i>
-                                <p>Data Pegawai</p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('nasabah.data-pembayaran') }}">
+                                    <i class="fas fa-pen-square"></i>
+                                    <p>Data Pembayaran</p>
+                                </a>
+                            </li>
+                        @endif
+
+
+
+                        @if (Auth::user()->role === 'admin')
+                            <li class="nav-item">
+                                <a href="/data-Pegawai">
+                                    <i class="fas fa-table"></i>
+                                    <p>Data Pegawai</p>
+                                </a>
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -271,10 +284,6 @@
                                         <li>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">My Profile</a>
-                                            <a class="dropdown-item" href="#">My Balance</a>
-                                            <a class="dropdown-item" href="#">Inbox</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Account Setting</a>
                                             <div class="dropdown-divider"></div>
                                             <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
@@ -294,7 +303,7 @@
             </div>
 
 
-                @yield('content')
+            @yield('content')
 
         </div>
     </div>
