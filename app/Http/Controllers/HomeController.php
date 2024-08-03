@@ -21,9 +21,11 @@ class HomeController extends Controller
             });
 
             return view('admin/admin-dashboard',compact('totalNasabah','totalNasabahBaru','totalJumlahPinjaman'));
+        }else {
+            $nasabah = Auth::user()->nasabah;
+            return view('dashboard', compact('nasabah'));
         }
 
-         return view('dashboard');
 
     }
 
