@@ -25,8 +25,8 @@ class PeminjamanController extends Controller
 
     public function validatePeminjaman()
     {
-        $peminjamansApprove = Peminjaman::with('nasabah')->where('status','approve')->get();
-        $peminjamansPending = Peminjaman::with('nasabah')->where('status','pending')->get();
+        $peminjamansApprove = Peminjaman::with('nasabah')->where('status', 'approve')->get();
+        $peminjamansPending = Peminjaman::with('nasabah')->where('status', 'pending')->get();
 
 
         return view('admin/validate-peminjaman', compact('peminjamansApprove', 'peminjamansPending'));
@@ -46,20 +46,33 @@ class PeminjamanController extends Controller
      */
     public function store(StorePeminjamanRequest $request)
     {
-
         $nasabah = Auth::user()->nasabah;
 
-        $peminjaman = new Peminjaman([
-            'jumlah_pinjaman' => $request->jumlah_pinjaman,
-            'jangka_waktu' => $request->jangka_waktu,
-            'alasan_peminjaman' => $request->alasan_peminjaman,
-            'status' => 'pending',
-            'nasabah_id' => $nasabah->id,
-        ]);
+        $jangkaWaktu = (int) $request->jangka_waktu;
+        $tanggalMulai = Carbon::now();
 
-        $nasabah->peminjaman()->save($peminjaman);
+        $jumlahPinjaman = (int) $request->jumlah_pinjaman;
+        $jumlahPinjamanDiperbarui = ($jumlahPinjaman + ($jumlahPinjaman * 0.02)) / $jangkaWaktu;
 
-        return redirect()->route('dashboard')->alert('success', 'Peminjaman berhasil disimpan.');
+        for ($i = 0; $i < $jangkaWaktu; $i++) {
+            $tanggalAkhir = $tanggalMulai->copy()->addMonth()->endOfMonth()->toDateString();
+
+            $peminjaman = new Peminjaman([
+                'jumlah_pinjaman' => $jumlahPinjamanDiperbarui,
+                'jangka_waktu' => $jangkaWaktu,
+                'tanggal_mulai' => $tanggalMulai->toDateString(),
+                'tanggal_akhir' => $tanggalAkhir,
+                'alasan_peminjaman' => $request->alasan_peminjaman,
+                'status' => 'pending',
+                'nasabah_id' => $nasabah->id,
+            ]);
+
+            $nasabah->peminjaman()->save($peminjaman);
+
+            $tanggalMulai->addMonth();
+        }
+
+        return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil disimpan.');
     }
 
     /**

@@ -12,6 +12,8 @@ class Peminjaman extends Model
     protected $fillable = [
         'jumlah_pinjaman',
         'jangka_waktu',
+        'tanggal_mulai',
+        'tanggal_akhir',
         'alasan_peminjaman',
         'status'
     ];

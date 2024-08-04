@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nasabah;
-use App\Models\Peminjaman;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -13,7 +11,7 @@ class HomeController extends Controller
     public function index(){
         if(Auth::check() && Auth::user()->role === 'admin'){
             $totalNasabah = Nasabah::count();
-            $totalNasabahBaru = User::doesntHave('nasabah')->where('role','nasabah')->count();
+            $totalNasabahBaru = User::doesntHave('nasabah')->where('role', 'nasabah')->count();
             // $tunggakan = Peminjaman::doesntHave()->sum();
 
             $totalJumlahPinjaman = Nasabah::with('peminjaman')->get()->sum(function($nasabah) {
@@ -21,7 +19,7 @@ class HomeController extends Controller
             });
 
             return view('admin/admin-dashboard',compact('totalNasabah','totalNasabahBaru','totalJumlahPinjaman'));
-        }else {
+        } else {
             $nasabah = Auth::user()->nasabah;
             return view('dashboard', compact('nasabah'));
         }
