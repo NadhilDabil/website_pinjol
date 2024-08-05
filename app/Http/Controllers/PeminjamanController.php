@@ -115,36 +115,31 @@ class PeminjamanController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // dd($request->all());
         $request->validate([
-            'nama' => 'required|max:20',
-            // 'jumlah_pinjaman' => 'required|max:20',
-            'jangka_waktu' => 'required|max:255',
-            'alasan_peminjaman' => 'required|max:255',
-            // 'biaya_admin' => 'required|max:255',
-            'total_pinjaman' => 'required|max:255',
+            'tanggal_mulai' => 'array|required',
+            'tanggal_akhir' => 'array|required',
+            # todo@nadhil
+            // 'foto' => '',
         ]);
 
-        $peminjaman = Peminjaman::findOrFail($id);
+        $peminjamanIds = $request->input('peminjaman_id');
+        $tanggalMulai = $request->input('tanggal_mulai');
+        $tanggalAkhir = $request->input('tanggal_akhir');
 
-        $peminjaman->update([
-            'nama' => $request->nama,
-            // 'jumlah_pinjaman' => $request->jumlah_pinjaman,
-            'jangka_waktu' => $request->jangka_waktu,
-            'alasan_peminjaman' => $request->alasan_peminjaman,
-        ]);
+        foreach ($peminjamanIds as $index => $peminjamanId) {
+            $peminjaman = Peminjaman::find($peminjamanId);
+            if ($peminjaman) {
+                $peminjaman->tanggal_mulai = $tanggalMulai[$index];
+                $peminjaman->tanggal_akhir = $tanggalAkhir[$index];
+                $peminjaman->save();
+            }
+        }
 
-        $faktur_peminjaman = FakturPeminjaman::findOrFail($id);
+        $fakturP = FakturPeminjaman::find($id);
+        $fakturP->tanggal_pencairan = Carbon::now();
+        $fakturP->save();
 
-        $faktur_peminjaman->update([
-            'total_pinjaman' => $request->total_pinjaman,
-            'biaya_admin' => $request->biaya_admin,
-            'tanggal_pencairan' => Carbon::now(),
-        ]);
-
-
-        return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil diupdate');
+        return redirect()->route('validate-peminjaman')->with('success', 'Peminjaman berhasil diupdate');
     }
 
 
