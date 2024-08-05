@@ -22,11 +22,14 @@ return new class extends Migration
             $table->string('nama_ibu', 225 );
             $table->date('tanggal_pendaftaran');
             $table->string('foto_ktp');
-            $table->string('pekerjaan', 30);
-            $table->string('usia');
-            $table->string('no_rekening', 15);
-            $table->string('tempat_tgl_lahir', 50);
+            $table->string('pekerjaan');
+            $table->integer('usia');
+            $table->string('no_rekening', 20);
+            $table->string('jenis_bank');
+            $table->string('tempat_lahir');
+            $table->date('tgl_lahir');
             $table->enum('jenis_kelamin', ['Pria', 'Wanita'])->default('Pria');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
 
             #FOREIGN KEY

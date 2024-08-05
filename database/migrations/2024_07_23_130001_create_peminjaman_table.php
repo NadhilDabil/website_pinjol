@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('nasabah_id');
+            $table->unsignedBigInteger('faktur_peminjaman_id');
             $table->double('jumlah_pinjaman');
-            $table->date('jangka_waktu');
-            $table->double('suku_bunga')->default(15);
-            $table->date('tanggal_pencairan')->nullable();
+            $table->double('suku_bunga')->default(0.3);
+            $table->date('tanggal_akhir')->nullable();
+            $table->date('tanggal_mulai')->nullable();
             $table->timestamps();
 
             #FOREIGH KEY
-            $table->foreign('nasabah_id')->references('id')->on('nasabah');
+            $table->foreign('faktur_peminjaman_id')->references('id')->on('faktur_peminjaman');
         });
     }
 

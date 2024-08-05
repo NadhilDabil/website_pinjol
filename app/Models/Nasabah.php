@@ -38,13 +38,18 @@ class Nasabah extends Model
         return Storage::url($this->foto_ktp);
     }
 
-    public function peminjaman()
-    {
-        return $this->hasMany(Peminjaman::class, 'nasabah_id');
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo('users');
+    }
+
+    public function fakturPeminjaman()
+    {
+        return $this->hasMany(FakturPeminjaman::class, 'nasabah_id');
+    }
+
+    public function peminjaman()
+    {
+        return $this->hasManyThrough(Peminjaman::class, FakturPeminjaman::class, 'nasabah_id', 'faktur_peminjaman_id');
     }
 }

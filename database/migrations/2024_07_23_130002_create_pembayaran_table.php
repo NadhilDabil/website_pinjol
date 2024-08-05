@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('tanggal_pembayaran');
             $table->string('metode_pembayaran', 30);
             $table->enum('status_pembayaran', ['Lunas', 'Pending']);
-            // $table->string('admin_id')->references('admin_id')->on('admin')->onDelete('set null');
             $table->timestamps();
 
             #FOREIGN KEY
