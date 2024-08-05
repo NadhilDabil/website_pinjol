@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index(){
         if(Auth::check() && Auth::user()->role === 'admin'){
             $totalNasabah = Nasabah::count();
-            $totalNasabahBaru = User::doesntHave('nasabah')->where('role', 'nasabah')->count();
+            $totalNasabahBaru = Nasabah::where('verified', false)->count();
             // $tunggakan = Peminjaman::doesntHave()->sum();
 
             $totalJumlahPinjaman = Nasabah::with('peminjaman')->get()->sum(function($nasabah) {
