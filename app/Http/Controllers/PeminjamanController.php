@@ -115,23 +115,38 @@ class PeminjamanController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        // dd($request->all());
         $request->validate([
-            'jumlah_pinjaman' => 'required|max:20',
-            'jangka_waktu' => ['required', 'date'],
+            'nama' => 'required|max:20',
+            // 'jumlah_pinjaman' => 'required|max:20',
+            'jangka_waktu' => 'required|max:255',
             'alasan_peminjaman' => 'required|max:255',
+            // 'biaya_admin' => 'required|max:255',
+            'total_pinjaman' => 'required|max:255',
         ]);
 
         $peminjaman = Peminjaman::findOrFail($id);
 
-        $peminjaman->jumlah_pinjaman = $request->jumlah_pinjaman;
-        $peminjaman->jangka_waktu = $request->jangka_waktu;
-        $peminjaman->alasan_peminjaman = $request->alasan_peminjaman;
-        $peminjaman->tanggal_pencairan = Carbon::now();
-        $peminjaman->status = 'approve';
+        $peminjaman->update([
+            'nama' => $request->nama,
+            // 'jumlah_pinjaman' => $request->jumlah_pinjaman,
+            'jangka_waktu' => $request->jangka_waktu,
+            'alasan_peminjaman' => $request->alasan_peminjaman,
+        ]);
 
-        $peminjaman->save();
+        $faktur_peminjaman = FakturPeminjaman::findOrFail($id);
+
+        $faktur_peminjaman->update([
+            'total_pinjaman' => $request->total_pinjaman,
+            'biaya_admin' => $request->biaya_admin,
+            'tanggal_pencairan' => Carbon::now(),
+        ]);
+
+
         return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil diupdate');
     }
+
 
     /**
      * Remove the specified resource from storage.

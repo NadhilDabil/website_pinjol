@@ -107,12 +107,7 @@
                                     <p>Pembayaran</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="/data-Pegawai">
-                                    <i class="fas fa-table"></i>
-                                    <p>Data Pegawai</p>
-                                </a>
-                            </li>
+
                             <li class="nav-item">
                                 <a href="{{ route('nasabah.data-pembayaran') }}">
                                     <i class="fas fa-pen-square"></i>

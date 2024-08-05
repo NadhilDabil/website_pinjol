@@ -10,6 +10,8 @@
 @section('content')
     <div class="container">
         <div class="row m-2 mt-4">
+
+            
             @if (@$nasabah->verified && $nasabah->peminjaman->count() === 0)
                 <div class="col-md-4 col-lg-4 d-flex">
                     <div class="card flex-fill">

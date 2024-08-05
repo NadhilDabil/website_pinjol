@@ -14,8 +14,6 @@ class Peminjaman extends Model
         'jangka_waktu',
         'tanggal_mulai',
         'tanggal_akhir',
-        'alasan_peminjaman',
-        'status'
     ];
 
     public function getBiayaAdminAttribute()
