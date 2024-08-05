@@ -17,7 +17,9 @@ class NasabahController extends Controller
     public function index()
     {
         $nasabahs = Nasabah::all();
-        return view('admin/data-nasabah', compact('nasabahs'));
+        $totalNeedVerifiedNasabah = Nasabah::where('verified', false)->count();
+
+        return view('admin/data-nasabah', compact('nasabahs', 'totalNeedVerifiedNasabah'));
     }
 
     /**
@@ -131,5 +133,13 @@ class NasabahController extends Controller
     public function destroy(Nasabah $nasabah)
     {
         //
+    }
+
+    public function verified(Nasabah $nasabah)
+    {
+        $nasabah->verified = true;
+        $nasabah->save();
+
+        return redirect()->back()->with('success', 'Nasabah berhasil verifikasi.');
     }
 }

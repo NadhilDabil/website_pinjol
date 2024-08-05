@@ -31,6 +31,7 @@ Route::middleware(['role'])->group(function () {
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('data-nasabah', [NasabahController::class, 'index'])->name('data-nasabah');
     Route::get('data-nasabah/{nasabah}', [NasabahController::class, 'show'])->name('form-nasabah.detail');
+    Route::get('data-nasabah/{nasabah}/verified', [NasabahController::class, 'verified'])->name('data-nasabah.verified');
 
     # Registration Nasabah
     Route::get('form-nasabah', [NasabahController::class, 'create'])->name('form-nasabah');

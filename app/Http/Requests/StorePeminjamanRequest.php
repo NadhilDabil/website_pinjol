@@ -24,7 +24,7 @@ class StorePeminjamanRequest extends FormRequest
     {
         return [
             'jumlah_pinjaman' => 'required|max:20',
-            'jangka_waktu' => ['required', 'date'],
+            'jangka_waktu' => 'required',
             'alasan_peminjaman' => 'required|max:255',
         ];
     }
