@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePeminjamanRequest;
+use App\Models\FakturPeminjaman;
 use App\Models\Nasabah;
 use App\Models\Peminjaman;
 use App\Models\User;
@@ -10,6 +11,8 @@ use App\Rules\TodayOrFutureDate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PeminjamanController extends Controller
 {
@@ -25,11 +28,11 @@ class PeminjamanController extends Controller
 
     public function validatePeminjaman()
     {
-        $peminjamansApprove = Peminjaman::with('nasabah')->where('status', 'approve')->get();
-        $peminjamansPending = Peminjaman::with('nasabah')->where('status', 'pending')->get();
+        $fPeminjamansApprove = FakturPeminjaman::with('nasabah')->whereNotNull('tanggal_pencairan')->get();
+        $fPeminjamansPending = FakturPeminjaman::with('nasabah')->whereNull('tanggal_pencairan')->get();
 
 
-        return view('admin/validate-peminjaman', compact('peminjamansApprove', 'peminjamansPending'));
+        return view('admin/validate-peminjaman', compact('fPeminjamansApprove', 'fPeminjamansPending'));
     }
 
     /**
@@ -47,32 +50,47 @@ class PeminjamanController extends Controller
     public function store(StorePeminjamanRequest $request)
     {
         $nasabah = Auth::user()->nasabah;
-
         $jangkaWaktu = (int) $request->jangka_waktu;
         $tanggalMulai = Carbon::now();
 
         $jumlahPinjaman = (int) $request->jumlah_pinjaman;
-        $jumlahPinjamanDiperbarui = ($jumlahPinjaman + ($jumlahPinjaman * 0.02)) / $jangkaWaktu;
+        $jumlahAdmin = $jumlahPinjaman * 0.02;
+        $jumlahPinjamanDiperbarui = ($jumlahPinjaman + $jumlahAdmin) / $jangkaWaktu;
 
-        for ($i = 0; $i < $jangkaWaktu; $i++) {
-            $tanggalAkhir = $tanggalMulai->copy()->addMonth()->endOfMonth()->toDateString();
+        try {
+            DB::beginTransaction();
 
-            $peminjaman = new Peminjaman([
-                'jumlah_pinjaman' => $jumlahPinjamanDiperbarui,
-                'jangka_waktu' => $jangkaWaktu,
-                'tanggal_mulai' => $tanggalMulai->toDateString(),
-                'tanggal_akhir' => $tanggalAkhir,
-                'alasan_peminjaman' => $request->alasan_peminjaman,
-                'status' => 'pending',
+            $fp = FakturPeminjaman::create([
                 'nasabah_id' => $nasabah->id,
+                'total_pinjaman' => $jumlahPinjaman,
+                'biaya_admin' => $jumlahAdmin,
+                'alasan_peminjaman' => $request->alasan_peminjaman,
+                'jangka_waktu' => $jangkaWaktu,
             ]);
 
-            $nasabah->peminjaman()->save($peminjaman);
+            for ($i = 0; $i < $jangkaWaktu; $i++) {
+                $tanggalAkhir = $tanggalMulai->copy()->addMonth()->endOfMonth()->toDateString();
 
-            $tanggalMulai->addMonth();
+                $peminjaman = new Peminjaman([
+                    'jumlah_pinjaman' => $jumlahPinjamanDiperbarui,
+                    'tanggal_mulai' => $tanggalMulai->toDateString(),
+                    'tanggal_akhir' => $tanggalAkhir,
+                ]);
+
+                $fp->peminjaman()->save($peminjaman);
+
+                $tanggalMulai->addMonth();
+            }
+
+            DB::commit();
+
+            return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil disimpan.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan, coba lagi.']);
         }
-
-        return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil disimpan.');
     }
 
     /**

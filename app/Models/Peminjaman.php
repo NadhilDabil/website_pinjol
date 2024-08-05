@@ -18,10 +18,18 @@ class Peminjaman extends Model
         'status'
     ];
 
-    public function nasabah()
+    public function getBiayaAdminAttribute()
     {
-        return $this->belongsTo(Nasabah::class, 'nasabah_id');
+        if ($this->jangka_waktu > 0) {
+            $jumlahPinjaman = $this->jumlah_pinjaman;
+            return ($jumlahPinjaman + ($jumlahPinjaman * 0.02)) / $this->jangka_waktu;
+        }
+
+        return 0;
     }
 
-
+    public function fakturPeminjaman()
+    {
+        return $this->belongsTo(FakturPeminjaman::class, 'faktur_peminjaman_id');
+    }
 }

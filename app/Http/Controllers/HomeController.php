@@ -12,13 +12,8 @@ class HomeController extends Controller
         if(Auth::check() && Auth::user()->role === 'admin'){
             $totalNasabah = Nasabah::count();
             $totalNasabahBaru = Nasabah::where('verified', false)->count();
-            // $tunggakan = Peminjaman::doesntHave()->sum();
 
-            $totalJumlahPinjaman = Nasabah::with('peminjaman')->get()->sum(function($nasabah) {
-                return $nasabah->peminjaman->where('status', 'approve')->sum('jumlah_pinjaman');
-            });
-
-            return view('admin/admin-dashboard',compact('totalNasabah','totalNasabahBaru','totalJumlahPinjaman'));
+            return view('admin/admin-dashboard',compact('totalNasabah','totalNasabahBaru'));
         } else {
             $nasabah = Auth::user()->nasabah;
             return view('dashboard', compact('nasabah'));

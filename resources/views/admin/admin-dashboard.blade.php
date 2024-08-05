@@ -67,7 +67,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
                         <p class="card-category">Tunggakan</p>
-                        <h4 class="card-title">{{number_format($totalJumlahPinjaman)}}</h4>
+                        <h4 class="card-title">0</h4>
                       </div>
                     </div>
                   </div>
