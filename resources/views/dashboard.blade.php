@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row m-2 mt-4">
 
-            
+
             @if (@$nasabah->verified && $nasabah->peminjaman->count() === 0)
                 <div class="col-md-4 col-lg-4 d-flex">
                     <div class="card flex-fill">
@@ -62,12 +62,14 @@
             <div class="col-md-12 col-lg-12 d-flex">
                 <div class="card flex-fill">
                     <div class="card-header">
-                        <div class="card-title">Proses</div>
+                        <div class="card-title">{{ $nasabah->peminjaman->where('tanggal_mulai', '<=', now())->count() > 0 ? 'Pembayaran' : 'Proses' }}</div>
                     </div>
                     <div class="card-body m-2">
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
-                                <p>Pembayaran | Pemintaan mu segera diproses.</p>
+                                <p>
+                                    {{ $nasabah->peminjaman->count() > 0 ? 'Berhasil | Pembayaran diterima.' : 'Pembayaran | Pemintaan mu segera diproses.' }}
+                                </p>
                             </div>
                         </div>
                     </div>

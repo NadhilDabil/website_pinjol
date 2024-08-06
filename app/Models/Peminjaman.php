@@ -11,20 +11,9 @@ class Peminjaman extends Model
 
     protected $fillable = [
         'jumlah_pinjaman',
-        'jangka_waktu',
         'tanggal_mulai',
         'tanggal_akhir',
     ];
-
-    public function getBiayaAdminAttribute()
-    {
-        if ($this->jangka_waktu > 0) {
-            $jumlahPinjaman = $this->jumlah_pinjaman;
-            return ($jumlahPinjaman + ($jumlahPinjaman * 0.02)) / $this->jangka_waktu;
-        }
-
-        return 0;
-    }
 
     public function fakturPeminjaman()
     {
