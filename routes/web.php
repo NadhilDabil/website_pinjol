@@ -2,14 +2,12 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NasabahController;
-use App\Http\Controllers\pembayaranController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Pembayaran;
-use App\Models\Peminjaman;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,9 +47,9 @@ Route::middleware(['role'])->group(function () {
 
     // Pembayaran nasabah
 
-    Route::post('pembayaran/store', [pembayaranController::class, 'store'])->name('pembayaran.store');
-    Route::get('data-pembayaran',[pembayaranController::class, 'index'])->name('data-pembayaran');
-    Route::get('pembayaran/{id}/show', [pembayaranController::class, 'show'])->name('pembayaran.show');
+    Route::get('data-pembayaran',[PembayaranController::class, 'index'])->name('data-pembayaran');
+    Route::post('pembayaran/{id}/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
+    Route::get('pembayaran/{id}/show', [PembayaranController::class, 'show'])->name('pembayaran.show');
 
 });
 

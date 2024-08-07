@@ -1,19 +1,15 @@
 @php
     $isDetail = isset($nasabah);
 @endphp
-@auth
-    @if (!App\Models\Nasabah::where('user_id', Auth::id())->exists())
-        <script>
-            window.location.href = "{{ route('form-nasabah') }}";
-        </script>
-    @endif
-@endauth
-
-@extends('layouts')
-@section('content')
-    <div class="container">
-        <div class="row m-2 mt-4">
-            @if ($isDetail)
+@if (!App\Models\Nasabah::where('user_id', Auth::id())->exists())
+    <script>
+        window.location.href = "{{ route('form-nasabah') }}";
+    </script>
+@else
+    @extends('layouts')
+    @section('content')
+        <div class="container">
+            <div class="row m-2 mt-4">
                 @if ($nasabah->verified && $nasabah->peminjaman->count() === 0)
                     <div class="col-md-4 col-lg-4 d-flex">
                         <div class="card flex-fill">
@@ -60,120 +56,140 @@
                             </form>
                         </div>
                     </div>
-                @endif
-            @else
-                <div class="col-md-12 col-lg-12 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header">
-
-                            @if ($peminjaman)
-                                <div class="card-title">Pembayaran</div>
-                                <div class="card-body m-2">
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-12">
-                                            <p>
-                                                Pembayaran sudah bisa dilakukan. Silakan bayar sebelum tanggal terakhir.
-                                                <a href="#">Klik di sini untuk melihat bukti transaksi</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card-body m-2">
-                                    <div class="row">
-                                        <div class="col-md-6 col-lg-6">
-                                            <div>
-                                                <h6 class="fw-bold">Tenggat Tanggal Pembayaran</h6>
-                                                <p class="fw-light">{{ $peminjaman->tanggal_akhir }}</p>
-                                            </div>
-                                            <div>
-                                                <h6 class="fw-bold">Nominal Pembayaran</h6>
-                                                <p class="fw-light">Rp.
-                                                    {{ number_format($peminjaman->jumlah_pinjaman, 0, ',', '.') }}</p>
+                @else
+                    <div class="col-md-12 col-lg-12 d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-header">
+                                @if ($peminjaman)
+                                    <div class="card-title">Pembayaran</div>
+                                    <div class="card-body m-2">
+                                        <div class="row">
+                                            <div class="col-md-12 col-lg-12">
+                                                <p>
+                                                    Pembayaran sudah bisa dilakukan. Silakan bayar sebelum tanggal terakhir.
+                                                    <a href="#">Klik di sini untuk melihat bukti transaksi</a>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="card-action d-flex flex-row-reverse">
-                                    <a type="submit" class="btn btn-primary"
-                                        href="{{ route('pembayaran.show', $peminjaman->id) }}">Kirim Bukti Pembayaran</a>
-
-                                </div>
-                            @else
-                                <div class="card-title">Proses</div>
-
-                                <div class="card-body m-2">
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-12">
-                                            <p>
-                                                Permintaan Anda Sedang Kami Proses
-                                            </p>
+                                    <div class="card-body m-2">
+                                        <div class="row">
+                                            <div class="col-md-6 col-lg-6">
+                                                <div>
+                                                    <h6 class="fw-bold">Tenggat Tanggal Pembayaran</h6>
+                                                    <p class="fw-light">{{ $peminjaman->tanggal_akhir }}</p>
+                                                </div>
+                                                <div>
+                                                    <h6 class="fw-bold">Nominal Pembayaran</h6>
+                                                    <p class="fw-light">Rp.
+                                                        {{ number_format($peminjaman->jumlah_pinjaman, 0, ',', '.') }}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endif
+
+                                    <div class="card-action d-flex flex-row-reverse">
+                                        <a type="submit" class="btn btn-primary"
+                                            href="{{ route('pembayaran.show', $peminjaman->id) }}">Kirim Bukti
+                                            Pembayaran</a>
+
+                                    </div>
+                                @else
+                                    @if ($peminjamanPayment)
+                                        <div class="card-title">Berhasil</div>
+
+                                        <div class="card-body m-2">
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <p>
+                                                        Pembayaranmu pada
+                                                        <strong><u>{{ \Carbon\Carbon::parse($peminjamanPayment->pembayaran->created_at)->format('j F Y') }}</u></strong>
+                                                        sudah diterima.
+                                                    </p>
+                                                    <p>
+                                                        *Jika tanggal pembayaran terakhir belum berubah. Permintaan Anda Sedang Kami Proses.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="card-title">Proses</div>
+
+                                        <div class="card-body m-2">
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <p>
+                                                        Permintaan Anda Sedang Kami Proses.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endif
+                @endif
 
 
-            @if ($isDetail)
-                <div class="{{ $nasabah->verified && $nasabah->peminjaman->count() === 0 ? 'col-md-8 col-lg-8' : 'col-md-12 col-lg-12' }} d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header">
-                            <div class="card-title">Data Peminjam</div>
-                        </div>
-                        <div class="card-body m-2">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-6">
-                                    <div>
-                                        <h6 class="fw-bold">Nomor Induk Kependudukan (NIK)</h6>
-                                        <p class="fw-light">{{ $nasabah->nik }}</p>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold">Nama Lengkap</h6>
-                                        <p class="fw-light">{{ Str::upper($nasabah->nama_lengkap) }}</p>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold">Nomor Telepon</h6>
-                                        <p class="fw-light">+62 {{ $nasabah->nomor_telepon }}</p>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold">Alamat</h6>
-                                        <p class="fw-light">{{ Str::upper($nasabah->alamat) }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-6">
-                                    <div>
-                                        <h6 class="fw-bold">Pekerjaan</h6>
-                                        <p class="fw-light">{{ Str::upper($nasabah->pekerjaan) }}</p>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold">Jenis Kelamin</h6>
-                                        <p class="fw-light">{{ Str::upper($nasabah->jenis_kelamin) }}</p>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold">Status</h6>
+                @if ($isDetail)
+                    <div
+                        class="{{ $nasabah->verified && $nasabah->peminjaman->count() === 0 ? 'col-md-8 col-lg-8' : 'col-md-12 col-lg-12' }} d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-header">
+                                <div class="card-title">Data Peminjam</div>
+                            </div>
+                            <div class="card-body m-2">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6">
                                         <div>
-                                            <p class="fw-light">
-                                                <span
-                                                    class="badge text-bg-{{ $nasabah->verified ? 'success' : 'warning' }}">
-                                                    {{ $nasabah->verified ? 'Terverifikasi' : 'Proses verifikasi' }}
-                                                </span>
-                                            </p>
-                                            <p class="mb-0 fw-light" style="font-size: 0.8rem; margin-top: -1rem">
-                                                *Peminjaman dapat dilakukan saat data sudah diverifikasi.
-                                            </p>
+                                            <h6 class="fw-bold">Nomor Induk Kependudukan (NIK)</h6>
+                                            <p class="fw-light">{{ $nasabah->nik }}</p>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold">Nama Lengkap</h6>
+                                            <p class="fw-light">{{ Str::upper($nasabah->nama_lengkap) }}</p>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold">Nomor Telepon</h6>
+                                            <p class="fw-light">+62 {{ $nasabah->nomor_telepon }}</p>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold">Alamat</h6>
+                                            <p class="fw-light">{{ Str::upper($nasabah->alamat) }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-lg-6">
+                                        <div>
+                                            <h6 class="fw-bold">Pekerjaan</h6>
+                                            <p class="fw-light">{{ Str::upper($nasabah->pekerjaan) }}</p>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold">Jenis Kelamin</h6>
+                                            <p class="fw-light">{{ Str::upper($nasabah->jenis_kelamin) }}</p>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold">Status</h6>
+                                            <div>
+                                                <p class="fw-light">
+                                                    <span
+                                                        class="badge text-bg-{{ $nasabah->verified ? 'success' : 'warning' }}">
+                                                        {{ $nasabah->verified ? 'Terverifikasi' : 'Proses verifikasi' }}
+                                                    </span>
+                                                </p>
+                                                <p class="mb-0 fw-light" style="font-size: 0.8rem; margin-top: -1rem">
+                                                    *Peminjaman dapat dilakukan saat data sudah diverifikasi.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
-        </div>
-    @endsection
+                @endif
+            </div>
+        @endsection
+@endif
