@@ -12,15 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index()
-    {
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            $totalNasabah = Nasabah::count();
-            $totalNasabahBaru = Nasabah::where('verified', false)->count();
-            $totalTunggakan = FakturPeminjaman::sum('total_pinjaman');
+{
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $totalNasabah = Nasabah::count();
+        $totalNasabahBaru = Nasabah::where('verified', false)->count();
+        $totalTunggakan = FakturPeminjaman::sum('total_pinjaman');
 
-            return view('admin/admin-dashboard', compact('totalNasabah', 'totalNasabahBaru', 'totalTunggakan'));
-        } else {
-            $nasabah = Auth::user()->nasabah;
+        return view('admin/admin-dashboard', compact('totalNasabah', 'totalNasabahBaru', 'totalTunggakan'));
+    } else {
+        $nasabah = Auth::user()->nasabah;
+
+        if ($nasabah) {
             $peminjaman = Peminjaman::whereHas('fakturPeminjaman', fn ($query) => $query->where('nasabah_id', $nasabah->id)->whereNotNull('bukti_transfer'))
                 ->whereDoesntHave('pembayaran')
                 ->where('tanggal_mulai', '<=', now())
@@ -32,8 +34,13 @@ class HomeController extends Controller
                 ->orderBy('id', 'desc')->first();
 
             return view('dashboard', compact('nasabah', 'peminjaman', 'peminjamanPayment'));
+        } else {
+            // Handle case where $nasabah does not exist, for example:
+            return redirect()->route('form-nasabah')->with('error', 'Nasabah not found');
         }
     }
+}
+
 
     public function form()
     {

@@ -5,6 +5,7 @@ use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -50,6 +51,10 @@ Route::middleware(['role'])->group(function () {
     Route::get('data-pembayaran',[PembayaranController::class, 'index'])->name('data-pembayaran');
     Route::post('pembayaran/{id}/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
     Route::get('pembayaran/{id}/show', [PembayaranController::class, 'show'])->name('pembayaran.show');
+
+    // Pembayaran Admin VALIDASI
+    Route::get('validate-data-pembayaran',[PembayaranController::class, 'validatePembayaran'])->name('validate-pembayaran');
+    Route::put('validate-pembayaran/{id}', [PembayaranController::class, 'update'])->name('validate-data-pembayaran.update');
 
 });
 

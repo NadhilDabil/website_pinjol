@@ -20,4 +20,5 @@ class Pembayaran extends Model
     public function peminjaman(){
         return $this->belongsTo(Peminjaman::class, 'peminjaman_id');
     }
+
 }

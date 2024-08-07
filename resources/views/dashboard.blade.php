@@ -78,7 +78,7 @@
                                             <div class="col-md-6 col-lg-6">
                                                 <div>
                                                     <h6 class="fw-bold">Tenggat Tanggal Pembayaran</h6>
-                                                    <p class="fw-light">{{ $peminjaman->tanggal_akhir }}</p>
+                                                    <p class="fw-light">{{ \Carbon\Carbon::parse($peminjaman->tanggal_akhir)->format('d F Y') }}</p>
                                                 </div>
                                                 <div>
                                                     <h6 class="fw-bold">Nominal Pembayaran</h6>

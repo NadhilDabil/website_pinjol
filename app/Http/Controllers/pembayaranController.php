@@ -19,6 +19,13 @@ class PembayaranController extends Controller
         return view('nasabah.data-pembayaran', compact('pembayaran'));
     }
 
+    public function validatePembayaran(){
+
+        $pembayaranPending = Pembayaran::with('peminjaman.fakturPeminjaman.nasabah')->where('status_pembayaran', false)->get();
+        $pembayaranApprove = Pembayaran::with('peminjaman.fakturPeminjaman.nasabah')->where('status_pembayaran', true)->get();
+
+        return view('admin.validate-data-pembayaran', compact('pembayaranPending', 'pembayaranApprove'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -44,6 +51,8 @@ class PembayaranController extends Controller
         ]);
 
         $pembayaran->save();
+
+        return redirect('dashboard');
     }
 
     /**
@@ -68,6 +77,12 @@ class PembayaranController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $pembayaran = Pembayaran::find($id);
+
+        $pembayaran->status_pembayaran = true;
+        $pembayaran->save();
+
+        return redirect('validate-data-pembayaran');
 
     }
 

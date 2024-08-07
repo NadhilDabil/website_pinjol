@@ -73,8 +73,7 @@
                             </div>
                             <div class="modal-body">
                                 <form action="{{ route('validate-peminjaman.update', $fakturPeminjaman->id) }}"
-                                    enctype="multipart/form-data"
-                                    method="post">
+                                    enctype="multipart/form-data" method="post">
                                     @csrf
                                     @method('PUT')
 
@@ -108,7 +107,8 @@
 
                                     <div class="form-group">
                                         <label for="bukti_transfer">Bukti Transfer</label>
-                                        <input type="file" class="form-control" name="bukti_transfer" id="bukti_transfer">
+                                        <input type="file" class="form-control" name="bukti_transfer"
+                                            id="bukti_transfer">
                                         <img id="bukti_transfer_preview" src="#" alt="Preview"
                                             style="max-width: 30%; height: auto; margin-top: 10px; display: none;" />
                                     </div>

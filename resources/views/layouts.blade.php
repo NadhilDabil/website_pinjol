@@ -101,15 +101,9 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="/pembayaran">
-                                    <i class="fas fa-pen-square"></i>
-                                    <p>Pembayaran</p>
-                                </a>
-                            </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('data-pembayaran') }}">
+                                <a href="{{ route('validate-pembayaran') }}">
                                     <i class="fas fa-pen-square"></i>
                                     <p>Data Pembayaran</p>
                                 </a>
