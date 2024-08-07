@@ -16,12 +16,17 @@ class Peminjaman extends Model
         'tanggal_akhir',
     ];
 
+    public function statusPembayaran(): bool
+    {
+        return $this->pembayaran ? true : false;
+    }
+
     public function fakturPeminjaman()
     {
         return $this->belongsTo(FakturPeminjaman::class, 'faktur_peminjaman_id');
     }
 
-    public function Pembayaran(){
+    public function pembayaran(){
         return $this->hasOne(Pembayaran::class, 'peminjaman_id');
     }
 }

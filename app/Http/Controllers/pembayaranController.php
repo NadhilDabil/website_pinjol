@@ -8,7 +8,7 @@ use App\Models\Pembayaran;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 
-class pembayaranController extends Controller
+class PembayaranController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,25 +30,20 @@ class pembayaranController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePembayaranRequest $request)
+    public function store(StorePembayaranRequest $request, string $id)
     {
-        dd('Hallow');
-        // $pembayaran = new Pembayaran([
-        //     'id_peminjaman' => $request->id_peminjaman,
-        //     'jumlah_bayar' => $request->jumlah_bayar,
-        //     'status_bayar' => $request->status_bayar,
-        // ]);
+        $filePath = '';
+        if ($request->hasFile('bukti_pembayaran')) {
+            $fileName = time() . '_' . $request->file('bukti_pembayaran')->getClientOriginalName();
+            $filePath = $request->file('bukti_pembayaran')->storeAs('uploads_transfer/bukti_pembayaran', $fileName, 'public');
+        }
 
-        // if ($request->hasFile('bukti_pembayaran')) {
-        //     $fileName = time() . '_' . $request->file('bukti_pembayaran')->getClientOriginalName();
-        //     $filePath = $request->file('bukti_pembayaran')->storeAs('uploads_transfer/bukti_pembayaran', $fileName, 'public');
+        $pembayaran = new Pembayaran([
+            'peminjaman_id' => $id,
+            'bukti_pembayaran' => $filePath
+        ]);
 
-        //     // Simpan path file yang benar
-        //     $pembayaran->bukti_pembayaran =  $filePath;
-        // }
-
-        // $pembayaran->status_pembayaran = '1';
-        // $pembayaran->save();
+        $pembayaran->save();
     }
 
     /**
@@ -57,8 +52,7 @@ class pembayaranController extends Controller
     public function show(string $id)
     {
         $peminjaman = Peminjaman::find($id);
-        $faktur_peminjaman = FakturPeminjaman::find($id);
-        return view('nasabah.data-pembayaran', compact('peminjaman', 'faktur_peminjaman'));
+        return view('nasabah.data-pembayaran', compact('peminjaman'));
     }
 
     /**

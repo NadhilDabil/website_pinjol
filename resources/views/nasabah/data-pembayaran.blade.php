@@ -1,9 +1,5 @@
-@use('\Illuminate\Support\FacadesAuth')
 @extends('layouts')
-
 @section('content')
-
-
     <div class="container">
         <div class="page-inner">
             <h2>
@@ -17,9 +13,8 @@
                             <div class="card-header">
                                 <h4 class="card-title">Pembayaran</h4>
                             </div>
-                            <form action="{{ route('pembayaran.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('pembayaran.store', $peminjaman->id) }}" method="post" enctype="multipart/form-data">
                                 @csrf
-
                                 <div class="card-body m-2">
                                     <div class="row">
                                         <div class="col-md-4 col-lg-4">
@@ -34,7 +29,7 @@
                                             </div>
                                             <div>
                                                 <h6 class="fw-bold">Biaya Admin</h6>
-                                                <p class="fw-light">{{ $faktur_peminjaman->biaya_admin }}</p>
+                                                <p class="fw-light">{{ $peminjaman->fakturPeminjaman->biaya_admin }}</p>
                                             </div>
                                         </div>
 
@@ -45,7 +40,7 @@
                                             </div>
                                             <div>
                                                 <h6 class="fw-bold">Alasan Meminjam</h6>
-                                                <p class="fw-light">{{ $faktur_peminjaman->alasan_peminjaman}}</p>
+                                                <p class="fw-light">{{ $peminjaman->fakturPeminjaman->alasan_peminjaman}}</p>
                                             </div>
                                         </div>
 
@@ -61,7 +56,6 @@
 
                                         <div class="card-action d-flex flex-row-reverse">
                                             <button type="submit" class="btn btn-primary">Kirim Bukti Pembayaran</button>
-
                                         </div>
                                     </div>
                                 </div>

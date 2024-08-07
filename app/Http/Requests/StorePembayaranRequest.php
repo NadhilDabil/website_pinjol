@@ -11,7 +11,7 @@ class StorePembayaranRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,6 @@ class StorePembayaranRequest extends FormRequest
     {
         return [
             'bukti_pembayaran' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'status_pembayaran' => 'required',
         ];
     }
 }

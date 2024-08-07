@@ -10,7 +10,7 @@
                     <div class="card-header">
                         <div class="card-title">{{ $isDetail ? 'Detail' : 'Formulir Data Diri' }}</div>
                     </div>
-                    <form action="{{ route('form-nasabah.store') }}" method="post"  >
+                    <form action="{{ route('form-nasabah.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="row">

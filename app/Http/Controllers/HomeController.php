@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FakturPeminjaman;
 use App\Models\Nasabah;
+use App\Models\Pembayaran;
 use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -20,12 +21,17 @@ class HomeController extends Controller
             return view('admin/admin-dashboard', compact('totalNasabah', 'totalNasabahBaru', 'totalTunggakan'));
         } else {
             $nasabah = Auth::user()->nasabah;
-            $peminjaman = Peminjaman::whereHas('fakturPeminjaman', fn ($query) => $query->where('nasabah_id', $nasabah?->id))
+            $peminjaman = Peminjaman::whereHas('fakturPeminjaman', fn ($query) => $query->where('nasabah_id', $nasabah->id)->whereNotNull('bukti_transfer'))
                 ->whereDoesntHave('pembayaran')
                 ->where('tanggal_mulai', '<=', now())
                 ->orderBy('tanggal_mulai', 'asc')
                 ->first();
-            return view('dashboard', compact('nasabah','peminjaman'));
+
+            $peminjamanPayment = Peminjaman::whereHas('pembayaran', fn ($query) => $query->where('status_pembayaran', true))
+                ->where('tanggal_mulai', '<=', now())
+                ->orderBy('id', 'desc')->first();
+
+            return view('dashboard', compact('nasabah', 'peminjaman', 'peminjamanPayment'));
         }
     }
 
