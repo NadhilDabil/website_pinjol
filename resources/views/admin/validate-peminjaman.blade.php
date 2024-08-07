@@ -73,6 +73,7 @@
                             </div>
                             <div class="modal-body">
                                 <form action="{{ route('validate-peminjaman.update', $fakturPeminjaman->id) }}"
+                                    enctype="multipart/form-data"
                                     method="post">
                                     @csrf
                                     @method('PUT')
@@ -103,6 +104,13 @@
                                         <input type="text" class="form-control" name="alasan_peminjaman"
                                             placeholder="Alasan Peminjaman"
                                             value="{{ $fakturPeminjaman->alasan_peminjaman }}" readonly />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="bukti_transfer">Bukti Transfer</label>
+                                        <input type="file" class="form-control" name="bukti_transfer" id="bukti_transfer">
+                                        <img id="bukti_transfer_preview" src="#" alt="Preview"
+                                            style="max-width: 30%; height: auto; margin-top: 10px; display: none;" />
                                     </div>
 
                                     <h4 class="fw-bold mt-5 mb-2">Peminjaman Detail</h4>
@@ -290,6 +298,27 @@
                 },
                 timeout: 8000
             })
+        });
+    </script>
+
+    <script>
+        document.getElementById('bukti_transfer').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('bukti_transfer_preview');
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
         });
     </script>
 

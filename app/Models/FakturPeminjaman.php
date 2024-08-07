@@ -18,6 +18,7 @@ class FakturPeminjaman extends Model
         'tanggal_pencairan',
         'alasan_peminjaman',
         'jangka_waktu',
+        'bukti_transfer',
     ];
 
     public function nasabah() : BelongsTo

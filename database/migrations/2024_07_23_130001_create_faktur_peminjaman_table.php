@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal_pencairan')->nullable();
             $table->text('alasan_peminjaman');
             $table->integer('jangka_waktu');
+            $table->string('bukti_transfer')->nullable();
             $table->timestamps();
 
             #FOREIGH KEY

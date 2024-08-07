@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PeminjamanController extends Controller
 {
@@ -115,11 +116,11 @@ class PeminjamanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'tanggal_mulai' => 'array|required',
             'tanggal_akhir' => 'array|required',
-            # todo@nadhil
-            // 'foto' => '',
+            'bukti_transfer' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $peminjamanIds = $request->input('peminjaman_id');
@@ -136,11 +137,21 @@ class PeminjamanController extends Controller
         }
 
         $fakturP = FakturPeminjaman::find($id);
+
+        if ($request->hasFile('bukti_transfer')) {
+            $fileName = time() . '_' . $request->file('bukti_transfer')->getClientOriginalName();
+            $filePath = $request->file('bukti_transfer')->storeAs('uploads_transfer/', $fileName, 'public');
+
+            // Simpan path file yang benar
+            $fakturP->bukti_transfer =  $filePath;
+        }
+
         $fakturP->tanggal_pencairan = Carbon::now();
         $fakturP->save();
 
         return redirect()->route('validate-peminjaman')->with('success', 'Peminjaman berhasil diupdate');
     }
+
 
 
     /**

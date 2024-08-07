@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePembayaranRequest;
+use App\Models\FakturPeminjaman;
+use App\Models\Pembayaran;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 
 class pembayaranController extends Controller
@@ -11,7 +15,8 @@ class pembayaranController extends Controller
      */
     public function index()
     {
-        return view('nasabah.data-pembayaran');
+        $pembayaran = Pembayaran::all();
+        return view('nasabah.data-pembayaran', compact('pembayaran'));
     }
 
     /**
@@ -25,9 +30,25 @@ class pembayaranController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePembayaranRequest $request)
     {
-        //
+        dd('Hallow');
+        // $pembayaran = new Pembayaran([
+        //     'id_peminjaman' => $request->id_peminjaman,
+        //     'jumlah_bayar' => $request->jumlah_bayar,
+        //     'status_bayar' => $request->status_bayar,
+        // ]);
+
+        // if ($request->hasFile('bukti_pembayaran')) {
+        //     $fileName = time() . '_' . $request->file('bukti_pembayaran')->getClientOriginalName();
+        //     $filePath = $request->file('bukti_pembayaran')->storeAs('uploads_transfer/bukti_pembayaran', $fileName, 'public');
+
+        //     // Simpan path file yang benar
+        //     $pembayaran->bukti_pembayaran =  $filePath;
+        // }
+
+        // $pembayaran->status_pembayaran = '1';
+        // $pembayaran->save();
     }
 
     /**
@@ -35,7 +56,9 @@ class pembayaranController extends Controller
      */
     public function show(string $id)
     {
-        
+        $peminjaman = Peminjaman::find($id);
+        $faktur_peminjaman = FakturPeminjaman::find($id);
+        return view('nasabah.data-pembayaran', compact('peminjaman', 'faktur_peminjaman'));
     }
 
     /**
@@ -43,7 +66,7 @@ class pembayaranController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
     }
 
     /**
@@ -51,7 +74,7 @@ class pembayaranController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
     }
 
     /**

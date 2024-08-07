@@ -109,7 +109,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('nasabah.data-pembayaran') }}">
+                                <a href="{{ route('data-pembayaran') }}">
                                     <i class="fas fa-pen-square"></i>
                                     <p>Data Pembayaran</p>
                                 </a>

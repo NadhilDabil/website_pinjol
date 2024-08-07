@@ -10,6 +10,7 @@ class Peminjaman extends Model
     protected $table = 'peminjaman';
 
     protected $fillable = [
+        'faktur_peminjaman_id',
         'jumlah_pinjaman',
         'tanggal_mulai',
         'tanggal_akhir',
@@ -18,5 +19,9 @@ class Peminjaman extends Model
     public function fakturPeminjaman()
     {
         return $this->belongsTo(FakturPeminjaman::class, 'faktur_peminjaman_id');
+    }
+
+    public function Pembayaran(){
+        return $this->hasOne(Pembayaran::class, 'peminjaman_id');
     }
 }

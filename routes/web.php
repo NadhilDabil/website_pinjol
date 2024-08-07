@@ -5,6 +5,7 @@ use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\pembayaranController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Pembayaran;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -47,7 +48,11 @@ Route::middleware(['role'])->group(function () {
     Route::put('validate-peminjaman/{id}',[PeminjamanController::class, 'update'])->name('validate-peminjaman.update');
 
     // Pembayaran nasabah
-    Route::get('nasabah.data-pembayaran',[pembayaranController::class, 'index'])->name('nasabah.data-pembayaran');
+
+    Route::post('pembayaran/store', [pembayaranController::class, 'store'])->name('pembayaran.store');
+    Route::get('data-pembayaran',[pembayaranController::class, 'index'])->name('data-pembayaran');
+    Route::get('pembayaran/{id}/show', [pembayaranController::class, 'show'])->name('pembayaran.show');
+
 });
 
 Route::middleware('auth')->group(function () {

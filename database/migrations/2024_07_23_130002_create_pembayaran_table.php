@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('peminjaman_id');
-            $table->double('pembayaran');
-            $table->date('tanggal_pembayaran');
-            $table->string('metode_pembayaran', 30);
-            $table->enum('status_pembayaran', ['Lunas', 'Pending']);
+            $table->string('bukti_pembayaran');
+            $table->boolean('status_pembayaran')->default(false);
             $table->timestamps();
 
             #FOREIGN KEY
